@@ -2,7 +2,7 @@ import React ,{useEffect} from 'react'
 import PageTitle from '../../components/PageTitle'
 import {Table, message} from 'antd';
 import TransferFundsModal from './TransferFundsModal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GetTransactionsOfUser } from '../../apicalls/transactions';
 import { HideLoading , ShowLoading} from '../../redux/loadersSlice';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import moment from 'moment';
 function Transactions() {
     const [showTransferFundsModal, setShowTransferFundsModal]=React.useState(false);
     const dispatch=useDispatch();
+    const {user} =useSelector(state=>state.users) 
     const [data=[],setData]=React.useState([]);
     const columns=[
         {
@@ -28,7 +29,25 @@ function Transactions() {
         },{
              title:"Type",
              dataIndex:"type",
+             render:(text,record)=>{
+                return record.sender._id===user._id?"Debit":"Credit"
+             }
         },{
+            title:"Reference Account",
+            dataIndex:"",
+            render:(text,record)=>{
+                return record.sender._id ===user._id?<div>
+                    <h1 className="text-sm">
+                        {record.receiver.firstName} {record.receiver.lastName}
+                    </h1>
+                </div>:<div>
+                    <h1 className="text-sm">
+                        {record.sender.firstName} {record.sender.lastName}
+                    </h1>
+                </div>
+            }
+        },
+        {
             title:"Reference",
             dataIndex:"reference",
         },{

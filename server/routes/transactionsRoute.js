@@ -35,6 +35,9 @@ router.post('/transfer-funds',authMiddleware,async(req,res)=>{
     }
 });
 
+const recentTransactions = new Map(); 
+const RAPID_TX_THRESHOLD_MS = 30 * 1000;
+
 //verify the receiver's account number
 router.post("/verify-account",authMiddleware,async(req,res)=>{
     try {
@@ -65,7 +68,8 @@ router.post("/verify-account",authMiddleware,async(req,res)=>{
 
 router.post("/get-all-transactions-by-user",authMiddleware,async(req,res)=>{
     try{
-        const transactions=await Transaction.find({$or :[{sender : req.userId},{receiver: req.userId}],});
+        const transactions=await Transaction.find({$or :[{sender : req.userId},{receiver: req.userId}],
+        }).sort({createdAt:-1}).populate("sender").populate("receiver");
         res.send({
             message:"Transaction fecthed",
             data:transactions,
