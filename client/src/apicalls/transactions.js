@@ -4,7 +4,7 @@ import axiosInstance from './index';
 
 export const VerifyAccount=async(payload)=>{
     try{
-        const {data} =await axiosInstance.post("api/transactions/verify-account",payload,{
+        const {data} =await axiosInstance.post("/api/transactions/verify-account",payload,{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem("token")}`,
             },
@@ -20,8 +20,11 @@ export const VerifyAccount=async(payload)=>{
 export const TransferFunds=async(payload)=>{
     try{
         const{data} =await axiosInstance.post("/api/transactions/transfer-funds",
-            payload
-        );
+            payload,{
+                headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+    });
         return data;
     }
     catch(error){
@@ -33,7 +36,11 @@ export const TransferFunds=async(payload)=>{
 //get all transactions for a user
 export const GetTransactionsOfUser=async()=>{
     try{
-        const {data} =await axiosInstance.post("/api/transactions//get-all-transactions-by-user");
+        const {data} =await axiosInstance.post("/api/transactions/get-all-transactions-by-user", {}, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
         return data;
     }catch(error){
         return error.respone.data;

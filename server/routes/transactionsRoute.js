@@ -63,9 +63,9 @@ router.post("/verify-account",authMiddleware,async(req,res)=>{
 
 //get all the transactions for a user
 
-router.post("/get-all-transactions-by-user",authMiddleware,(req,res)=>{
+router.post("/get-all-transactions-by-user",authMiddleware,async(req,res)=>{
     try{
-        const transactions=await Transaction.find({$or :[{sender : req.body.userId},{receiver:req.body.userId}]});
+        const transactions=await Transaction.find({$or :[{sender : req.userId},{receiver: req.userId}],});
         res.send({
             message:"Transaction fecthed",
             data:transactions,
@@ -78,7 +78,7 @@ router.post("/get-all-transactions-by-user",authMiddleware,(req,res)=>{
             success:false,
         });
     }
-})
+});
 
 
 module.exports=router;

@@ -1,35 +1,26 @@
-import React from 'react'
+import React ,{useEffect} from 'react'
 import PageTitle from '../../components/PageTitle'
 import {Table, message} from 'antd';
 import TransferFundsModal from './TransferFundsModal';
 import { useDispatch } from 'react-redux';
 import { GetTransactionsOfUser } from '../../apicalls/transactions';
 import { HideLoading , ShowLoading} from '../../redux/loadersSlice';
+import moment from 'moment';
 
 function Transactions() {
     const [showTransferFundsModal, setShowTransferFundsModal]=React.useState(false);
-    const [data=[],setData]=React.useState([]);
     const dispatch=useDispatch();
-    const getData=async()=>{
-         try {
-            dispatch(ShowLoading());
-            const response=await GetTransactionsOfUser();
-            if(response.success){
-                setData(response.data)
-            }
-            dispatch(HideLoading());
-         } catch (error) {
-            dispatch(HideLoading());
-            message.error(error.message);
-         }
-    }
+    const [data=[],setData]=React.useState([]);
     const columns=[
         {
             title:"Date",
             dataIndex:"date",
+            render:(text,record)=>{
+                return moment(record.createdAt).format("DD-MM-YYYY hh:mm:ss A");                 
+            }
         },{
             title:"Transaction ID",
-            dataIndex:"transactionId"
+            dataIndex:"_id"
         },
         {
             title:"Amount",
@@ -49,6 +40,26 @@ function Transactions() {
     console.log("Transfer button clicked");
     setShowTransferFundsModal(true);
   };
+  
+
+  const getData=async()=>{
+         try {
+            dispatch(ShowLoading());
+            const response=await GetTransactionsOfUser();  
+            if(response.success){
+                setData(response.data);
+            }
+            dispatch(HideLoading());
+         } catch (error) {
+            dispatch(HideLoading());
+            message.error(error.message);
+         }
+    }
+
+    console.log(data);
+  useEffect(()=>{
+    getData();
+  },[])
 
   return (
     <div> 
@@ -70,6 +81,7 @@ function Transactions() {
         {showTransferFundsModal && (<TransferFundsModal 
         showTransferFundsModal={showTransferFundsModal} 
         setShowTransferFundsModal={setShowTransferFundsModal}
+        reloadData={getData}
         />)}
     </div>
   );     
