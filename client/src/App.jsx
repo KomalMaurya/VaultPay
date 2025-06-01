@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import Home from './Pages/Home'
 import ProtectedRoute from './components/protectedRoute';
 import PublicRoute from './components/PublicRoute';
+import Transactions from './Pages/Transactions';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/login' element={<PublicRoute><Login/></PublicRoute>}/>
         <Route path='/register' element={<PublicRoute><Register/></PublicRoute>}/>
         <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+        <Route path='/transactions' element={<ProtectedRoute><Transactions/></ProtectedRoute>}/>
       </Routes>
       </BrowserRouter>
     </div>

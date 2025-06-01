@@ -30,7 +30,7 @@ function DefaultLayout({children}) {
         },
         {
             title:"Logout",
-            icon:<i class="ri-logout-circle-line"></i>,
+            icon:<i class="ri-logout-box-line"></i>,
             onClick:()=>{
                 localStorage.removeItem("token"); 
                 navigate("/login")
@@ -63,7 +63,7 @@ function DefaultLayout({children}) {
         },
         {
             title:"Logout",
-            icon:<i class="ri-logout-circle-line"></i>,
+            icon:<i class="ri-logout-box-line"></i>,
             onClick:()=>{
                 localStorage.removeItem("token"); 
                 navigate("/login")
@@ -72,24 +72,34 @@ function DefaultLayout({children}) {
         }
     ]
 
+    const menuToRender=user?.isAdmin==="admin" ? adminMenu:userMenu;
+
   return (
     <div className='layout'>
         <div className="sidebar">
-            <div className="menu"></div>
+            <div className="menu">
+                {menuToRender.map((item)=>{
+                    const isActive=window.location.pathname===item.path;
+                    return <div className={`menu-item ${isActive?"active-menu-item":""}`} onClick={item.onClick}> 
+                    {item.icon}
+                    {!collapsed && <h1 className=' text-sm'>{item.title}</h1>}
+                    </div>
+                })}
+            </div>
         </div>
         <div className="body">
             <div className="header flex justify-between items-center">
-                <div className='text-white'>
-                    {collapsed && <i class="ri-close-fill" onClick={()=>{setCollapsed(!collapsed)}}></i>}
-                    {!collapsed && <i class="ri-menu-search-line" onClick={()=>{setCollapsed(!collapsed)}}></i>}
+                <div className='text-secondary '>
+                    {collapsed && <i class="ri-close-fill animation" onClick={()=>{setCollapsed(!collapsed)}} ></i>}
+                    {!collapsed && <i class="ri-menu-search-line animation" onClick={()=>{setCollapsed(!collapsed)}}></i>}
                 </div>
 
                 <div>
-                    <h1 className="text-xl text-white">VaultPay</h1>
+                    <h1 className="text-xl text-secondary">VaultPay</h1>
                 </div>
 
                 <div>
-                    <h1 className="text-sm underline text-white">
+                    <h1 className="text-sm underline text-secondary">
                         {user?.firstName} {user?.lastName}
                     </h1>
                 </div>
