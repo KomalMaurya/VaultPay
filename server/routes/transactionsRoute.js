@@ -1,9 +1,10 @@
 const router=require('express').Router();
+const User = require("../models/userModel");
 const authMiddleware = require("../middlewares/authMiddleware");
 const Transaction=require('../models/transactionModel');
 
 //transfer money from one account to another
-router.post('/transfer-fund',authMiddleware,async(req,res)=>{
+router.post('/transfer-funds',authMiddleware,async(req,res)=>{
     try {
 
         //save the transaction

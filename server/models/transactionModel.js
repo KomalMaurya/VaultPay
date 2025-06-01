@@ -14,10 +14,6 @@ const transactionSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"users",
         required:true
-    },
-    type:{
-        type:String,
-        required:true,
     },reference :{
         type:String,
         required:true

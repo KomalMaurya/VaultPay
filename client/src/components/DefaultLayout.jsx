@@ -90,8 +90,8 @@ function DefaultLayout({children}) {
         <div className="body">
             <div className="header flex justify-between items-center">
                 <div className='text-secondary '>
-                    {collapsed && <i class="ri-close-fill animation" onClick={()=>{setCollapsed(!collapsed)}} ></i>}
-                    {!collapsed && <i class="ri-menu-search-line animation" onClick={()=>{setCollapsed(!collapsed)}}></i>}
+                    {!collapsed && <i class="ri-close-fill animation" onClick={()=>{setCollapsed(!collapsed)}} ></i>}
+                    {collapsed && <i class="ri-menu-search-line animation" onClick={()=>{setCollapsed(!collapsed)}}></i>}
                 </div>
 
                 <div>
