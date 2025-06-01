@@ -4,7 +4,6 @@ import {Form} from 'antd';
 import {useDispatch, useSelector } from 'react-redux';
 import {ShowLoading,HideLoading} from "../../redux/loadersSlice";
 import { TransferFunds, VerifyAccount } from '../../apicalls/transactions';
-import { response } from 'express';
 
 function TransferFundsModal({showTransferFundsModal,
     setShowTransferFundsModal,reloadData}) {
@@ -18,8 +17,8 @@ function TransferFundsModal({showTransferFundsModal,
             const payload={
                 ...values,
                 sender:user._id,
-                reference:values.receiver,
-                status:"success"
+                status:"success",
+                reference:values.reference || "no reference",
             };
             const response=await TransferFunds(payload);
             if(response.success){
@@ -31,7 +30,7 @@ function TransferFundsModal({showTransferFundsModal,
             }
             dispatch(HideLoading());
         } catch (error) {
-            message.error(response.message);
+            message.error(error.message);
             dispatch(HideLoading());
         }
     }

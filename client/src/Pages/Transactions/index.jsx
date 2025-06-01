@@ -1,10 +1,28 @@
 import React from 'react'
 import PageTitle from '../../components/PageTitle'
-import {Table} from 'antd';
+import {Table, message} from 'antd';
 import TransferFundsModal from './TransferFundsModal';
+import { useDispatch } from 'react-redux';
+import { GetTransactionsOfUser } from '../../apicalls/transactions';
+import { HideLoading , ShowLoading} from '../../redux/loadersSlice';
 
 function Transactions() {
     const [showTransferFundsModal, setShowTransferFundsModal]=React.useState(false);
+    const [data=[],setData]=React.useState([]);
+    const dispatch=useDispatch();
+    const getData=async()=>{
+         try {
+            dispatch(ShowLoading());
+            const response=await GetTransactionsOfUser();
+            if(response.success){
+                setData(response.data)
+            }
+            dispatch(HideLoading());
+         } catch (error) {
+            dispatch(HideLoading());
+            message.error(error.message);
+         }
+    }
     const columns=[
         {
             title:"Date",
@@ -48,7 +66,7 @@ function Transactions() {
                 </button>
             </div>
         </div>
-        <Table columns={columns} dataSource={[]}  className='mt-2'/>
+        <Table columns={columns} dataSource={data}  className='mt-2'/>
         {showTransferFundsModal && (<TransferFundsModal 
         showTransferFundsModal={showTransferFundsModal} 
         setShowTransferFundsModal={setShowTransferFundsModal}

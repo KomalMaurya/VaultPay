@@ -27,4 +27,15 @@ export const TransferFunds=async(payload)=>{
     catch(error){
         return error.respone.data;
     }
+};
+
+
+//get all transactions for a user
+export const GetTransactionsOfUser=async()=>{
+    try{
+        const {data} =await axiosInstance.post("/api/transactions//get-all-transactions-by-user");
+        return data;
+    }catch(error){
+        return error.respone.data;
+    }
 }

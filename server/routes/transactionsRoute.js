@@ -59,6 +59,26 @@ router.post("/verify-account",authMiddleware,async(req,res)=>{
                 success:false,
             });
     }
-} )
+} );
+
+//get all the transactions for a user
+
+router.post("/get-all-transactions-by-user",authMiddleware,(req,res)=>{
+    try{
+        const transactions=await Transaction.find({$or :[{sender : req.body.userId},{receiver:req.body.userId}]});
+        res.send({
+            message:"Transaction fecthed",
+            data:transactions,
+            success:true,
+        });
+    }catch(error){
+        res.send({
+            message:"Transaction not fecthed",
+            data:error.message,
+            success:false,
+        });
+    }
+})
+
 
 module.exports=router;
