@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetTransactionsOfUser } from '../../apicalls/transactions';
 import { HideLoading , ShowLoading} from '../../redux/loadersSlice';
 import moment from 'moment';
+import DepositModal from './DepositModal';
 
 function Transactions() {
     const [showTransferFundsModal, setShowTransferFundsModal]=React.useState(false);
+    const [showDepositModal, setShowDepositModal]=React.useState(false);
     const dispatch=useDispatch();
     const {user} =useSelector(state=>state.users) 
     const [data=[],setData]=React.useState([]);
@@ -86,7 +88,7 @@ function Transactions() {
             <PageTitle title="Transactions"/>
 
             <div className='flex gap-1'>
-                <button className='primary-outlined-btn'>
+                <button className='primary-outlined-btn' onClick={()=>setShowDepositModal(true)}>
                     Deposit
                 </button>
                 <button className='primary-contained-btn'
@@ -102,6 +104,11 @@ function Transactions() {
         setShowTransferFundsModal={setShowTransferFundsModal}
         reloadData={getData}
         />)}
+
+        {showDepositModal && <DepositModal
+        showDepositModal={showDepositModal}
+        setShowDepositModal={setShowDepositModal}
+        />}
     </div>
   );     
 }

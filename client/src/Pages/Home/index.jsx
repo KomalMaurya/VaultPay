@@ -10,7 +10,7 @@ function Home() {
       <PageTitle title={
         `Hello ${user.firstName} ${user.lastName}, Welcome to VaultPay`
       }/>
-      <div className="bg-tertiary p-2 mt-2 w-50 br-3 flex flex-col gap-1">
+      <div className="bg-tertiary p-2 mt-2 w-50 br-3 flex flex-col gap-1 uppercase">
         <div className="flex justify-between">
           <h1 className="text-md text-white" >
             Account Number
@@ -28,7 +28,7 @@ function Home() {
           </h1>
         </div>
       </div>
-      <div className="card p-2 mt-2 w-50 br-3 flex flex-col gap-1">
+      <div className="card p-2 mt-2 w-50 br-3 flex flex-col gap-1 ">
         <div className="flex justify-between">
           <h1 className="text-md" >
             Name
